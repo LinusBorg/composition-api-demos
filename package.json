@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "ky": "^0.12.0",
     "vue": "^2.6.10",
+    "vue-function-api": "^2.2.0",
     "vue-router": "^3.0.3"
   },
   "devDependencies": {
