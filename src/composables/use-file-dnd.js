@@ -1,20 +1,38 @@
-import { ref, computed } from '@vue/composition-api'
+import { ref, computed, watch } from '@vue/composition-api'
 
-export default function useFileDnD({ max = Infinity }) {
-  const files = ref(null)
+export default function useFileDnD(inputRef, { max = Infinity } = {}) {
+  const files = ref([])
+  let open
 
-  let disabled = false
+  if (inputRef) {
+    const handler = e => {
+      files.value = [...e.target.files]
+    }
+
+    open = () => {
+      console.log('open')
+      inputRef.value && inputRef.value.click()
+    }
+    watch(inputRef, (newEl, oldEl) => {
+      newEl && newEl.addEventListener('change', handler)
+
+      oldEl && oldEl.removeEventListener('change', handler)
+    })
+  }
 
   let first = ref(false)
   let second = ref(false)
 
+  const cancel = () => {
+    first.value = false
+    second.value = false
+  }
+
   const events = {
     dragover(e) {
-      if (disabled) return
       e.preventDefault()
     },
     dragenter() {
-      if (disabled) return
       if (first.value) {
         second.value = true
       } else {
@@ -22,7 +40,6 @@ export default function useFileDnD({ max = Infinity }) {
       }
     },
     dragleave() {
-      if (disabled) return
       if (second.value) {
         second.value = false
       } else if (first) {
@@ -30,21 +47,20 @@ export default function useFileDnD({ max = Infinity }) {
       }
     },
     drop(e) {
-      if (disabled) return
       e.preventDefault()
-      const files = [...e.dataTransfer.files]
-      files.value = files.length > max ? null : files
+      const newFiles = [...e.dataTransfer.files]
+      if (files.value.length <= max) {
+        files.value = newFiles
+      }
+      cancel()
     },
   }
 
   return {
+    cancel,
     events,
     files,
     hovering: computed(() => first.value),
-    toggle: () => (disabled = !disabled),
-    cancel: () => {
-      first.value = false
-      second.value = false
-    },
+    open,
   }
 }
