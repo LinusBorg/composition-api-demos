@@ -20,6 +20,7 @@
 <script>
 import { createComponent, computed, ref } from '@vue/composition-api'
 import useFileDnD from '../composables/use-file-dnd'
+import useGlobalDnD from '../composables/use-global-dnd'
 export default createComponent({
   name: 'Upload',
   setup() {
@@ -28,10 +29,14 @@ export default createComponent({
     const { cancel, events: dropEvents, files, hovering, open } = useFileDnD(
       inputRef
     )
+
+    const dragging = useGlobalDnD()
+
     const classes = computed(() => {
       return {
         'vue-filedrop-hovering': hovering.value,
         'vue-filedrop-no-files': !files.length,
+        'vue-filedrop-dragging': dragging.value,
       }
     })
 
