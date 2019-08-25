@@ -4,8 +4,12 @@
       <Post :post="post" />
     </article>
     <div class="loading-box">
-      <Spinner v-if="loading" />
-      <h2 v-if="loading">Loading page {{ pagination.currentPage.value }}</h2>
+      <template v-if="loading">
+        <div><Spinner /></div>
+        <div>
+          <h2>Loading page {{ pagination.currentPage.value }}</h2>
+        </div>
+      </template>
       <button v-else @click="next">Load more Posts</button>
     </div>
     <hr />
