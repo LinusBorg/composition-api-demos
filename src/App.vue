@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/posts">Infinite Posts</router-link> |
-      <router-link to="/upload">Upload Dropzone</router-link>
+      <router-link to="/upload">Upload Dropzone</router-link> |
+      <router-link to="/form">Form Validation</router-link>
     </div>
     <router-view />
   </div>
