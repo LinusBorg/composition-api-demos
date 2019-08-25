@@ -13,6 +13,7 @@
     "@vue/composition-api": "^0.1.0",
     "core-js": "^2.6.5",
     "ky": "^0.12.0",
+    "lodash-es": "^4.17.15",
     "validatorjs": "^3.15.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"
