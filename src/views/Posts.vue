@@ -1,20 +1,38 @@
 <template>
-  <div></div>
+  <div style="text-align: left;">
+    <article v-for="(post, i) in posts" :key="i">
+      <Post :post="post" />
+    </article>
+    <div class="loading-box">
+      <Spinner v-if="loading" />
+      <h2 v-if="loading">Loading page {{ pagination.currentPage.value }}</h2>
+      <button v-else @click="next">Load more Posts</button>
+    </div>
+    <hr />
+  </div>
 </template>
 
 <script>
-import { state, watch } from 'vue-function-api'
+import { reactive, watch, createComponent } from '@vue/composition-api'
 import usePagination from '../composables/pagination'
-import { usePromise } from '../composables/use-promise'
-import { useScroll } from '../composables/on-scroll'
-import api from '../api'
+import usePromise from '../composables/use-promise'
+import useScroll from '../composables/use-scroll'
+import * as api from '../api'
 
-export default {
+import Post from '@/components/Post'
+import Spinner from '@/components/Spinner'
+export default createComponent({
   name: 'ShowPosts',
+  components: {
+    Post,
+    Spinner,
+  },
   setup() {
-    const posts = state([])
+    const posts = reactive([])
 
     const pagination = usePagination()
+
+    pagination.total.value = 105
 
     async function loadPosts() {
       const newPosts = await api.posts.get({
@@ -27,6 +45,9 @@ export default {
 
     const { loading, error, use: getPosts } = usePromise(loadPosts)
 
+    // Load initial Posts
+    getPosts()
+    // load more posts when page was increased
     watch(pagination.currentPage, (newVal, oldVal) => {
       newVal > oldVal && getPosts()
     })
@@ -42,24 +63,29 @@ export default {
       if (loading.value || newY < oldY) return
 
       const isBottom =
-        document.documentElement.scrollTop + window.innerHeight - newY < 10
-
+        document.documentElement.scrollHeight - (window.innerHeight + newY) <
+        150
       // if we reached the bottom of the page ...
-      if (isBottom) {
-        // select the next page
-        pagination.next()
-      }
+      // select the next page
+      isBottom && pagination.next()
     })
 
     return {
+      posts,
       error,
       loading,
-      posts,
       next,
-      page: pagination.currentPage,
+      pagination,
     }
   },
-}
+})
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.loading-box {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

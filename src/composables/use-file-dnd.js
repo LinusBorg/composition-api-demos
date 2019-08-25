@@ -1,12 +1,12 @@
-import { value, computed } from 'vue-function-api'
+import { ref, computed } from '@vue/composition-api'
 
 export default function useFileDnD({ max = Infinity }) {
-  const files = value(null)
+  const files = ref(null)
 
   let disabled = false
 
-  let first = value(false)
-  let second = value(false)
+  let first = ref(false)
+  let second = ref(false)
 
   const events = {
     dragover(e) {

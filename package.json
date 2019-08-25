@@ -10,10 +10,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@vue/composition-api": "^0.1.0",
     "core-js": "^2.6.5",
     "ky": "^0.12.0",
+    "validatorjs": "^3.15.1",
     "vue": "^2.6.10",
-    "vue-function-api": "^2.2.0",
     "vue-router": "^3.0.3"
   },
   "devDependencies": {

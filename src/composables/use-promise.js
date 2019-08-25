@@ -1,4 +1,4 @@
-import { state as $state, toRefs } from 'vue-function-api'
+import { reactive, toRefs } from '@vue/composition-api'
 
 export default function usePromise(fn) {
   if (!fn) {
@@ -12,8 +12,8 @@ export default function usePromise(fn) {
       `[usePromise]: argument has to be function, but received ${typeof fn}`
     )
   }
-  const state = $state({
-    pending: false,
+  const state = reactive({
+    loading: false,
     error: null,
     result: null,
   })

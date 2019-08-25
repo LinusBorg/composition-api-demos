@@ -1,4 +1,4 @@
-import { provide, onCreated, onDestroyed } from 'vue-function-api'
+import { provide, onCreated, onDestroyed } from '@vue/composition-api'
 import { useFileDnD } from './file-dnd'
 
 const eventNames = ['dragover', 'dragenter', 'dragleave']

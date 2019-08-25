@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import FnApi from 'vue-function-api'
+import FnApi from '@vue/composition-api'
 
 Vue.use(FnApi)
 Vue.config.productionTip = false

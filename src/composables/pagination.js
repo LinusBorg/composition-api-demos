@@ -1,49 +1,59 @@
-import { computed, value, state as $state, watch } from 'vue-function-api'
+import { computed, ref, watch } from '@vue/composition-api'
 
-export default function usePagination(perPage = 10, start = 1) {
-  const currentPage = value(start)
+export default function usePagination(_perPage = 10, start = 1) {
+  // Internal currentPage ref
+  const _currentPage = ref(start)
+  // public readonly ref for the currentPage
+  // changing the current Page is only possible through the povided methods (see below)
+  const currentPage = computed(() => _currentPage.value)
 
-  const state = $state({
-    perPage,
-    total: Infinity,
-    currentPage: computed(() => currentPage.value),
-    lastPage: computed(() =>
-      state.total === Infinity ? null : Math.ceil(state.total / state.perPage)
-    ),
-    offset: computed(() =>
-      Math.min(state.currentPage + 1 * state.perPage, state.total)
-    ),
-    prev: () => setCurrentPage(currentPage.value + 1),
-    next: () => setCurrentPage(currentPage.value + 1),
-    last: () => (currentPage.value = state.lastPage),
-    setCurrentPage: val => {
-      if (typeof val !== 'number') return
-      val = Math.max(currentPage.value - 1, 1)
-      val = Math.min(currentPage + 1, state.lastPage)
-      currentPage.value = val
-    },
-  })
+  const perPage = ref(_perPage)
+  const total = ref(null)
 
-  function setCurrentPage(val) {
+  // Computed values
+  const lastPage = computed(() =>
+    total.value ? Math.ceil(total.value / perPage.value) : null
+  )
+  const offset = computed(() =>
+    Math.min(_currentPage.value + 1 * perPage.value, total.value)
+  )
+
+  // Methods
+  const prev = () => setCurrentPage(_currentPage.value - 1)
+  const next = () => setCurrentPage(_currentPage.value + 1)
+  const last = () => (_currentPage.value = lastPage.value)
+
+  const setCurrentPage = val => {
     if (typeof val !== 'number') return
-    currentPage.value = minmax(val, 1, state.lastPage)
+    _currentPage.value = minmax(val, 1, lastPage.value)
   }
 
   // lastPage may never be < currentPage
   watch(
-    [() => state.total, () => state.perPage],
+    [total, perPage],
     () => {
-      if (state.currentPage > state.lastPage) {
-        currentPage.value = state.lastPage
+      if (_currentPage.value > lastPage.value) {
+        _currentPage.value = lastPage.value
       }
     },
     { lazy: true }
   )
 
-  return state
+  return {
+    perPage,
+    total,
+    offset,
+    lastPage,
+    next,
+    prev,
+    last,
+    currentPage,
+    setCurrentPage,
+  }
 }
 
 function minmax(val, min, max) {
-  Math.max(val - 1, min)
-  Math.min(val + 1, max)
+  if (val < min) return min
+  if (val > max) return max
+  return val
 }
