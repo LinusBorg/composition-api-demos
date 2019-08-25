@@ -36,11 +36,11 @@ export default createComponent({
 
     const pagination = usePagination()
 
-    pagination.total.value = 105
+    pagination.total.value = 100
 
     async function loadPosts() {
       const newPosts = await api.posts.get({
-        start: pagination.offset.value,
+        start: pagination.offset.value + pagination.perPage.value,
         limit: pagination.perPage.value,
       })
 
@@ -51,7 +51,7 @@ export default createComponent({
 
     // Load initial Posts
     getPosts()
-    // load more posts when page was increased
+    // load more posts when page has been increased
     watch(pagination.currentPage, (newVal, oldVal) => {
       newVal > oldVal && getPosts()
     })
@@ -79,7 +79,7 @@ export default createComponent({
       error,
       loading,
       next,
-      pagination,
+      currentPage: pagination.currentPage,
     }
   },
 })

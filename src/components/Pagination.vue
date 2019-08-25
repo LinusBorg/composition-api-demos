@@ -1,9 +1,9 @@
 <template>
   <div>
-    <a href="#" @click.prevent="setCurrentPage(1)">&lt;&lt;</a> |
+    <a href="#" @click.prevent="set(1)">&lt;&lt;</a> |
     <a href="#" @click.prevent="prev()">&lt;</a> |
     <a href="#" @click.prevent="next()">&gt;</a> |
-    <a v-if="lastPage" href="#" @click.prevent="setCurrentPage(lastPage.value)"
+    <a v-if="lastPage" href="#" @click.prevent="set(lastPage.value)"
       >&gt;&gt;</a
     >
   </div>

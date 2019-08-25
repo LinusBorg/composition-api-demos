@@ -1,27 +1,30 @@
 import { computed, ref, watch } from '@vue/composition-api'
 
-export default function usePagination(perPage = ref(10), start = 1) {
-  // Internal currentPage ref
-  const _currentPage = ref(start)
+export default function usePagination(
+  perPage = ref(10),
+  total = ref(null),
+  startPage = 1
+) {
+  // Internal currentPage value
+  const _currentPage = ref(startPage)
   // public readonly ref for the currentPage
   // changing the current Page is only possible through the povided methods (see below)
   const currentPage = computed(() => _currentPage.value)
-
-  const total = ref(null)
 
   // Computed values
   const lastPage = computed(() =>
     total.value ? Math.ceil(total.value / perPage.value) : null
   )
   const offset = computed(() =>
-    Math.min(_currentPage.value + 1 * perPage.value, total.value)
+    Math.min((currentPage.value - 1) * perPage.value, total.value)
   )
 
   // Functions
-  const prev = () => setCurrentPage(_currentPage.value - 1)
-  const next = () => setCurrentPage(_currentPage.value + 1)
-  const last = () => (_currentPage.value = lastPage.value)
-  const setCurrentPage = val => {
+  const prev = () => set(currentPage.value - 1)
+  const next = () => set(currentPage.value + 1)
+  const first = () => set(1)
+  const last = () => set(lastPage.value)
+  const set = val => {
     if (typeof val !== 'number') return
     _currentPage.value = minmax(val, 1, lastPage.value)
   }
@@ -34,7 +37,7 @@ export default function usePagination(perPage = ref(10), start = 1) {
         _currentPage.value = lastPage.value
       }
     },
-    { lazy: true }
+    { lazy: true } // no need to run on first render
   )
 
   return {
@@ -48,8 +51,9 @@ export default function usePagination(perPage = ref(10), start = 1) {
     // Functions
     next,
     prev,
+    first,
     last,
-    setCurrentPage,
+    set,
   }
 }
 
