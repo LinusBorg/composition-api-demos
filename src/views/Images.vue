@@ -20,7 +20,7 @@
 
 <script>
 import { reactive, watch, createComponent } from '@vue/composition-api'
-import usePagination from '../composables/pagination'
+import usePagination from '../composables/use-pagination'
 import usePromise from '../composables/use-promise'
 import useScroll from '../composables/use-scroll'
 import * as api from '../api'

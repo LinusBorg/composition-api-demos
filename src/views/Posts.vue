@@ -1,93 +1,72 @@
 <template>
-  <div style="text-align: left;">
-    <article v-for="(post, i) in posts" :key="i">
-      <Post :post="post" />
-    </article>
-    <div class="loading-box">
-      <template v-if="loading">
-        <div><Spinner /></div>
-        <div>
-          <h2>Loading page {{ currentPage.value }}</h2>
-        </div>
-      </template>
-      <button v-else @click="next">Load more Posts</button>
+  <div>
+    <div class="flex flex-col items-center text-left">
+      <article v-for="(post, i) in posts" :key="i">
+        <Post :post="post" />
+      </article>
     </div>
-    <hr />
+    <div class="pagination-box">
+      <Pagination
+        :pagination="pagination"
+        @set="pagination.set($event)"
+        @prev="pagination.prev()"
+        @next="pagination.next()"
+        @last="pagination.last()"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { reactive, watch, createComponent } from '@vue/composition-api'
-import usePagination from '../composables/pagination'
-import usePromise from '../composables/use-promise'
-import useScroll from '../composables/use-scroll'
+import { ref, watch, createComponent } from '@vue/composition-api'
+import usePagination from '../composables/use-pagination'
 import * as api from '../api'
 
 import Post from '@/components/Post'
-import Spinner from '@/components/Spinner'
+import Pagination from '@/components/Pagination.vue'
 export default createComponent({
   name: 'ShowPosts',
   components: {
     Post,
-    Spinner,
+    Pagination,
   },
   setup() {
-    const posts = reactive([])
-
     const pagination = usePagination()
 
-    pagination.total.value = 100
+    const posts = ref([])
+    const allPosts = ref([])
 
-    async function loadPosts() {
-      const newPosts = await api.posts.get({
-        start: pagination.offset.value + pagination.perPage.value,
-        limit: pagination.perPage.value,
+    function setCurrentPosts() {
+      posts.value = allPosts.value.slice(
+        pagination.offset.value,
+        pagination.offset.value + pagination.perPage.value
+      )
+    }
+    api.posts
+      .get({
+        limit: 100,
+      })
+      .then(result => {
+        allPosts.value = result
+        pagination.total.value = result.length
+        setCurrentPosts()
       })
 
-      posts.push(...newPosts)
-    }
-
-    const { loading, error, use: getPosts } = usePromise(loadPosts)
-
-    // Load initial Posts
-    getPosts()
     // load more posts when page has been increased
-    watch(pagination.currentPage, (newVal, oldVal) => {
-      newVal > oldVal && getPosts()
-    })
-
-    function next() {
-      !loading.value && pagination.next()
-    }
-
-    const { scrollY } = useScroll()
-
-    watch(scrollY, (newY, oldY) => {
-      // return if already loading or scrolling up
-      if (loading.value || newY < oldY) return
-
-      const isBottom =
-        document.documentElement.scrollHeight - (window.innerHeight + newY) <
-        150
-      // if we reached the bottom of the page ...
-      // select the next page
-      isBottom && pagination.next()
-    })
+    watch(pagination.currentPage, setCurrentPosts)
 
     return {
+      allPosts,
       posts,
-      error,
-      loading,
-      next,
-      currentPage: pagination.currentPage,
+      pagination,
     }
   },
 })
 </script>
 
 <style lang="scss" scoped>
-.loading-box {
-  min-height: 150px;
+.pagination-box {
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;

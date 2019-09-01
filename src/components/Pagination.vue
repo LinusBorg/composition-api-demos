@@ -1,34 +1,46 @@
 <template>
-  <div>
-    <a href="#" @click.prevent="set(1)">&lt;&lt;</a> |
-    <a href="#" @click.prevent="prev()">&lt;</a> |
-    <a href="#" @click.prevent="next()">&gt;</a> |
-    <a v-if="lastPage" href="#" @click.prevent="set(lastPage.value)"
-      >&gt;&gt;</a
+  <div class="pagination">
+    <a href="#" @click.prevent="$emit('set', 1)">1</a>
+    <a href="#" @click.prevent="$emit('prev')">&lt;</a>
+    <span class="current text-teal-500"
+      ><strong>{{ pagination.currentPage.value }}</strong></span
+    >
+    <a href="#" @click.prevent="$emit('next')">&gt;</a>
+    <a
+      v-if="pagination.lastPage.value"
+      href="#"
+      @click.prevent="$emit('set', pagination.lastPage.value)"
+      >{{ pagination.lastPage.value }}</a
     >
   </div>
 </template>
 
 <script>
-import { createComponent, watch } from '@vue/composition-api'
-import usePagination from '../composables/pagination'
+import { createComponent } from '@vue/composition-api'
 export default createComponent({
   props: {
-    perPage: Number,
-    total: Number,
-  },
-  setup(props, context) {
-    const pagination = usePagination()
-
-    watch(() => props.total, total => (pagination.total.value = total))
-
-    watch(pagination.currentPage, page => context.emit('current-page', page))
-
-    return {
-      ...pagination,
-    }
+    pagination: Object,
   },
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.pagination {
+  font-size: 0.9rem;
+
+  & a,
+  .current {
+    display: inline-block;
+    border: 1px solid #ccc;
+    line-height: 0.9rem;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    line-height: 1.6rem;
+    text-align: center;
+
+    &:not(:nth-child(1)) {
+      margin-left: 5px;
+    }
+  }
+}
+</style>
