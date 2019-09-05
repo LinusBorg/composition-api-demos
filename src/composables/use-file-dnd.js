@@ -14,9 +14,8 @@ export default function useFileDnD(inputRef, { max = Infinity } = {}) {
       inputRef.value && inputRef.value.click()
     }
     watch(inputRef, (newEl, oldEl) => {
-      newEl && newEl.addEventListener('change', handler)
-
       oldEl && oldEl.removeEventListener('change', handler)
+      newEl && newEl.addEventListener('change', handler)
     })
   }
 

@@ -2,10 +2,10 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/images">Infinite Images</router-link> |
+      <router-link to="/form">Form Validation</router-link> |
       <router-link to="/posts">Paginated Posts</router-link> |
-      <router-link to="/upload">Upload Dropzone</router-link> |
-      <router-link to="/form">Form Validation</router-link>
+      <router-link to="/images">Infinite Images</router-link> |
+      <router-link to="/upload">Upload Dropzone</router-link>
     </div>
     <router-view />
   </div>

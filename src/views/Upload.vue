@@ -56,13 +56,13 @@ export default createComponent({
 $padding: 15px;
 
 .vue-filedrop-box {
-  margin: 1rem;
   display: flex;
+  height: 200px;
+  width: 600px;
+  margin: 1rem auto;
   justify-content: center;
   align-items: center;
-  display: flex;
-  flex: 1 1 auto;
-  border: 1px solid #ccc;
+  border: 1px dashed #ccc;
   border-radius: 3px;
 
   padding: $padding;

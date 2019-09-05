@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { reactive, watch, createComponent } from '@vue/composition-api'
+import { ref, reactive, watch, createComponent } from '@vue/composition-api'
 import usePagination from '../composables/use-pagination'
 import usePromise from '../composables/use-promise'
 import useScroll from '../composables/use-scroll'
@@ -36,7 +36,7 @@ export default createComponent({
   setup() {
     const photos = reactive([])
 
-    const pagination = usePagination()
+    const pagination = usePagination(ref(9))
 
     pagination.total.value = 100
 

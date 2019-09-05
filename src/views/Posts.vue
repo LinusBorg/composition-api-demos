@@ -5,7 +5,7 @@
         <Post :post="post" />
       </article>
     </div>
-    <div class="pagination-box">
+    <div v-if="posts.length" class="pagination-box">
       <Pagination
         :pagination="pagination"
         @set="pagination.set($event)"
