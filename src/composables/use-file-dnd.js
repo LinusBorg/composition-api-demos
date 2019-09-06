@@ -55,7 +55,14 @@ export default function useFileDnD(inputRef, { max = Infinity } = {}) {
     },
   }
 
+  const attrs = {
+    tabindex: 0,
+    'aria-role': 'button',
+    'aria-label': 'Click to select a file to upload',
+  }
+
   return {
+    attrs,
     cancel,
     events,
     files,

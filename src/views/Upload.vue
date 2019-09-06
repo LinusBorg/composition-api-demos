@@ -4,7 +4,9 @@
       class="vue-filedrop-box"
       :class="classes"
       v-on="dropEvents"
+      v-bind="attrs"
       @click="openInput"
+      @keyup.enter="openInput"
     >
       <input type="file" ref="inputRef" hidden />
       <ul v-if="files.length">
@@ -26,9 +28,14 @@ export default createComponent({
   setup() {
     const inputRef = ref(null)
 
-    const { cancel, events: dropEvents, files, hovering, open } = useFileDnD(
-      inputRef
-    )
+    const {
+      attrs,
+      cancel,
+      events: dropEvents,
+      files,
+      hovering,
+      open,
+    } = useFileDnD(inputRef)
 
     const dragging = useGlobalDnD()
 
@@ -41,6 +48,7 @@ export default createComponent({
     })
 
     return {
+      attrs,
       cancel,
       classes,
       dropEvents,
