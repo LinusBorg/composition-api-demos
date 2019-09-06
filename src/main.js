@@ -1,11 +1,10 @@
 import Vue from 'vue'
-import App from './App.vue'
+import './composition-plugin'
 import router from './router'
-import FnApi from '@vue/composition-api'
+import App from './App.vue'
 
 import './assets/main.css'
 
-Vue.use(FnApi)
 Vue.config.productionTip = false
 
 new Vue({
