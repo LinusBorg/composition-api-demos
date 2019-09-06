@@ -25,11 +25,16 @@ export default function usePromise(fn) {
       result: null,
     })
 
+  let lastPromise
   const use = async (...args) => {
     reset()
     state.loading = true
+    const promise = (lastPromise = fn(...args))
     try {
-      state.result = await fn(...args)
+      const result = await promise
+      if (lastPromise === promise) {
+        state.result = result
+      }
     } catch (e) {
       state.error = e
     } finally {
