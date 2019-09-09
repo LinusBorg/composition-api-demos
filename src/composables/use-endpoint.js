@@ -1,20 +1,26 @@
-import { ref, computed } from '@vue/composition-api'
+import { reactive, ref, toRefs, computed } from '@vue/composition-api'
 
 export default function useEndpoint(_ky, method, path, _options) {
   const ky = _ky.extend(_options)
 
   let abortController
+  const cancelPrevious = () => {
+    abortController && abortController.abort()
+    abortController = null
+  }
 
   const _loading = ref(false)
-  const loading = computed(() => _loading.value)
-  const error = ref(false)
-  const promise = ref(null)
-  const result = ref(null)
+  const state = reactive({
+    error: null,
+    loading: computed(() => _loading.value),
+    promise: null,
+    result: null,
+  })
 
   const call = async options => {
-    abortController && abortController.abort()
+    state.error = null
     abortController = new AbortController()
-    const promise = wait(
+    state.promise = wait(
       ky(path, {
         ...options,
         method,
@@ -23,20 +29,18 @@ export default function useEndpoint(_ky, method, path, _options) {
     )
     try {
       _loading.value = true
-      result.value = await promise
+      state.result = await state.promise
     } catch (e) {
-      error.value = e
+      state.error = e
     } finally {
       _loading.value = false
     }
   }
 
   return {
-    error,
-    loading,
-    promise,
-    result,
     call,
+    cancelPrevious,
+    ...toRefs(state),
   }
 }
 
