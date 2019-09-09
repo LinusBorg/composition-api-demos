@@ -1,19 +1,25 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/form">Form Validation</router-link> |
-      <router-link to="/posts">Paginated Posts</router-link> |
-      <router-link to="/images">Infinite Images</router-link> |
-      <router-link to="/upload">Upload Dropzone</router-link>
-    </div>
-    <router-view />
+    <NotificationProvider>
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/form">Form Validation</router-link> |
+        <router-link to="/posts">Paginated Posts</router-link> |
+        <router-link to="/images">Infinite Images</router-link> |
+        <router-link to="/upload">Upload Dropzone</router-link>
+      </div>
+      <router-view />
+    </NotificationProvider>
   </div>
 </template>
 
 <script>
+import { NotificationProvider } from './store'
 export default {
   name: 'App',
+  components: {
+    NotificationProvider,
+  },
 }
 </script>
 
