@@ -1,17 +1,17 @@
 <template>
   <div class="pagination">
-    <a href="#" @click.prevent="$emit('set', 1)">1</a>
     <a href="#" @click.prevent="$emit('prev')">&lt;</a>
+    <a href="#" @click.prevent="$emit('set', 1)">1</a>
     <span class="current text-teal-500"
       ><strong>{{ pagination.currentPage.value }}</strong></span
     >
-    <a href="#" @click.prevent="$emit('next')">&gt;</a>
     <a
       v-if="pagination.lastPage.value"
       href="#"
       @click.prevent="$emit('set', pagination.lastPage.value)"
       >{{ pagination.lastPage.value }}</a
     >
+    <a href="#" @click.prevent="$emit('next')">&gt;</a>
   </div>
 </template>
 
