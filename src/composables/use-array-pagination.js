@@ -15,5 +15,8 @@ export default function useArrayPagination(arrayRef = ref([])) {
     )
   })
 
-  return result
+  return {
+    ...pagination,
+    result,
+  }
 }
