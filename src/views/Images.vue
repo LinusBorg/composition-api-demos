@@ -9,7 +9,7 @@
       <template v-if="loading">
         <div><Spinner /></div>
         <div>
-          <h2>Loading page {{ currentPage.value }}</h2>
+          <h2>Loading page {{ currentPage }}</h2>
         </div>
       </template>
       <button v-else @click="next">Load more Iamgrs</button>
