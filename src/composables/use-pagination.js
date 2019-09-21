@@ -1,10 +1,10 @@
 import { computed, ref, watch } from '@vue/composition-api'
 
-export default function usePagination(
+export default function usePagination({
   perPage = ref(10),
   total = ref(null),
-  startPage = 1
-) {
+  startPage = 1,
+} = {}) {
   // Internal currentPage value
   const _currentPage = ref(startPage)
   // public readonly ref for the currentPage
