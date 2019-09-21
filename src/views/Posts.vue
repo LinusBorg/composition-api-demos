@@ -18,8 +18,9 @@
 </template>
 
 <script>
-import { ref, watch, createComponent } from '@vue/composition-api'
-import usePagination from '../composables/use-pagination'
+import { ref, createComponent } from '@vue/composition-api'
+import useArrayPagination from '../composables/use-array-pagination'
+import usePromiseFn from '../composables/use-promise'
 import * as api from '../api'
 
 import Post from '@/components/Post'
@@ -31,34 +32,27 @@ export default createComponent({
     Pagination,
   },
   setup() {
-    const pagination = usePagination()
-
-    const posts = ref([])
     const allPosts = ref([])
+    const pagination = useArrayPagination(allPosts)
 
-    function setCurrentPosts() {
-      posts.value = allPosts.value.slice(
-        pagination.offset.value,
-        pagination.offset.value + pagination.perPage.value
-      )
-    }
-    api.posts
-      .get({
-        limit: 100,
-      })
-      .then(result => {
-        allPosts.value = result
-        pagination.total.value = result.length
-        setCurrentPosts()
-      })
+    const { loading, error, use: getAllPosts } = usePromiseFn(() => {
+      return api.posts
+        .get({
+          limit: 100,
+        })
+        .then(result => {
+          allPosts.value = result
+        })
+    })
 
-    // load more posts when page has been increased
-    watch(pagination.currentPage, setCurrentPosts)
+    getAllPosts()
 
     return {
       allPosts,
-      posts,
+      error,
+      loading,
       pagination,
+      posts: pagination.result,
     }
   },
 })
