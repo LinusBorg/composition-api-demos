@@ -18,16 +18,9 @@ export default function usePromise(fn) {
     result: null,
   })
 
-  const reset = () =>
-    Object.assign(state, {
-      loading: null,
-      error: null,
-      result: null,
-    })
-
   let lastPromise
   const use = async (...args) => {
-    reset()
+    state.error = null
     state.loading = true
     const promise = (lastPromise = fn(...args))
     try {

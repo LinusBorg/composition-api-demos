@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import { ref, watch, createComponent } from '@vue/composition-api'
+import { ref, createComponent } from '@vue/composition-api'
 import useArrayPagination from '../composables/use-array-pagination'
-import usePromisFn from '../composables/use-promise'
+import usePromiseFn from '../composables/use-promise'
 import * as api from '../api'
 
 import Post from '@/components/Post'
@@ -35,16 +35,18 @@ export default createComponent({
     const allPosts = ref([])
     const pagination = useArrayPagination(allPosts)
 
-    cons { loading, error } = usePromise(() => {
+    const { loading, error, use: getAllPosts } = usePromiseFn(() => {
       return api.posts
-      .get({
-        limit: 100,
-      })
-      .then(result => {
-        allPosts.value = result
-      })    
+        .get({
+          limit: 100,
+        })
+        .then(result => {
+          allPosts.value = result
+        })
     })
-    
+
+    getAllPosts()
+
     return {
       allPosts,
       error,
