@@ -1,10 +1,9 @@
-import { computed, ref, watch } from '@vue/composition-api'
+import { computed, ref, toRefs, watch } from '@vue/composition-api'
 
-export default function usePagination({
-  perPage = ref(10),
-  total = ref(null),
-  startPage = 1,
-} = {}) {
+export default function usePagination(options = {}) {
+  const { perPage = ref(10), total = ref(null), startPage = 1 } = toRefs(
+    options
+  )
   // Internal currentPage value
   const _currentPage = ref(startPage)
   // public readonly ref for the currentPage
@@ -20,14 +19,14 @@ export default function usePagination({
   )
 
   // Functions
-  const prev = () => set(currentPage.value - 1)
-  const next = () => set(currentPage.value + 1)
-  const first = () => set(1)
-  const last = () => set(lastPage.value)
   const set = val => {
     if (typeof val !== 'number') return
     _currentPage.value = minmax(val, 1, lastPage.value)
   }
+  const prev = () => set(currentPage.value - 1)
+  const next = () => set(currentPage.value + 1)
+  const first = () => set(1)
+  const last = () => set(lastPage.value)
 
   // lastPage may never be < currentPage
   watch(
