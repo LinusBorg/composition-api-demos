@@ -12,16 +12,19 @@
           <h2>Loading page {{ currentPage }}</h2>
         </div>
       </template>
-      <button v-else @click="next">Load more Iamgrs</button>
+      <button v-else-if="!loading && currentPage < 12" @click="next">
+        Load more Images
+      </button>
     </div>
     <hr />
   </div>
 </template>
 
 <script>
-import { ref, reactive, watch, createComponent } from '@vue/composition-api'
+import { reactive, watch, createComponent } from '@vue/composition-api'
 import usePagination from '../composables/use-pagination'
 import useEndOfPage from '../composables/use-endofpage'
+import usePromiseFn from '../composables/use-promise'
 import * as api from '../api'
 
 import DemoImage from '@/components/DemoImage'
@@ -35,25 +38,25 @@ export default createComponent({
   setup() {
     const photos = reactive([])
 
-    const pagination = usePagination({ perPage: ref(9) })
+    const pagination = usePagination({ perPage: 9 })
     pagination.total.value = 100
 
-    const { loading, error, result, call: getImages } = api.images.get
-
-    watch(pagination.currentPage, () => {
-      getImages({
-        searchParams: {
-          _start: pagination.offset.value, // + pagination.perPage.value,
-          _limit: pagination.perPage.value,
-        },
-      })
-    })
-
-    watch(result, result => result && photos.push(...result))
-
+    const { loading, error, result, use: getImages } = usePromiseFn(
+      (offset, perPage) =>
+        api.photos.get({
+          start: offset,
+          limit: perPage,
+        })
+    )
     function next() {
       !loading.value && pagination.next()
     }
+
+    watch(pagination.currentPage, () => {
+      getImages(pagination.offset.value, pagination.perPage.value)
+    })
+
+    watch(result, result => result && photos.push(...result))
 
     useEndOfPage(next, 150 /* px from bottom */)
 
