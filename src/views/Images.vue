@@ -35,7 +35,7 @@ export default createComponent({
   setup() {
     const photos = reactive([])
 
-    const pagination = usePagination(ref(9))
+    const pagination = usePagination({ perPage: ref(9) })
     pagination.total.value = 100
 
     const { loading, error, result, call: getImages } = api.images.get
