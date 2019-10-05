@@ -10,7 +10,7 @@ export default {
     watch(scrollY, y => {
       // pseudocode checking if we reached end of page
       if (isBottomOfPage(y)) {
-        stuff.value.push(/* ... */)
+        stuff.push(/* ... */)
       }
     })
     return {
