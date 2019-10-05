@@ -1,5 +1,6 @@
 import {
   reactive,
+  readonly,
   toRefs,
   computed,
   createComponent,
@@ -57,7 +58,7 @@ export const key = Symbol('NotificationStore')
 export const NotificationProvider = createComponent({
   setup() {
     provide(key, {
-      ...toRefs(state),
+      ...toRefs(readonly(state)),
       ...computeds,
       ...actions,
     })

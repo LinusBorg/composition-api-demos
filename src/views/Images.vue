@@ -9,7 +9,7 @@
       <template v-if="loading">
         <div><Spinner /></div>
         <div>
-          <h2>Loading page {{ currentPage }}</h2>
+          <h2 class="text-3xl">Loading page {{ currentPage }}</h2>
         </div>
       </template>
       <button v-else-if="!loading && currentPage < 12" @click="next">
