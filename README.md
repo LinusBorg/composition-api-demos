@@ -4,11 +4,11 @@
 
 This repository contains a demo application meant to demonstrate various usecases and patterns that arise with the new composition API that Vuejs 3 will introduce.
 
-It is is meant as an extension of atalk about the new API which I gave at [Vuejs London 2019](https://vuejs.london) on October 4th, 2019. You can find the slides [here](https://github.com/LinusBorg/talks/tree/master/2019-10-04%20Vuejs%20London).
+It is is meant as an extension of a talk about the new API which I gave at [Vuejs London 2019](https://vuejs.london) on October 4th, 2019. You can find the slides [here](https://github.com/LinusBorg/talks/tree/master/2019-10-04%20Vuejs%20London).
 
-this repo represents the current state of my endaviour at playing with this API and seeing where it takes me, what patterns I can come up with etc., and I plan on adding new examples as I come up with them /across them.
+this repo represents the current state of my endeavor at playing with this API and seeing where it takes me, what patterns I can come up with etc., and I plan on adding new examples as I come up with / across them.
 
-So keep in mind, it doesn't +do* anything useful, and it's also not a pretty thing to look at in the browser - it's meant as a demo of the API, nothing more. It's also not a good idea to take any of the demos as prescriptive in terms of the patterns used there. We as a community will have to figure out what the beste patterns, the do's and don'ts will be, and I don'T claim to have found the best ones yet.
+So keep in mind, it doesn't *do* anything useful, and it's also not a pretty thing to look at in the browser - it's meant as a demo of the API, nothing more. It's also not a good idea to take any of the demos as prescriptive in terms of the patterns used there. We as a community will have to figure out what the beste patterns, the do's and don'ts will be, and I don'T claim to have found the best ones yet.
 
 ## The talk
 
@@ -26,12 +26,12 @@ The code for the slide examples can be found in `/slides-examples`.
 
 ### The routes (`/views`)
 
-The `/views` folder cocntains route components, each containing exmaples for differenmt use cases. Each of these examples makes usually use of a few different composition functions.
+The `/views` folder contains route components, each containing examples for different use cases. Most of these examples make  use of a few different composition functions.
 
 - `Form.vue`: Using a compositon function to do reactive form validation
 - `Images.vue`: Build an Infinite Scrolling image gallery out of a few different composition functions (uses jsonplaceholder.typicode.com for the API - thanks!)
 - `Posts.vue`: With a slight variation of the code used in `Images.vue`, this component paginates a pre-populated array of posts.
-- `Upload.vue`: Demonstrates how to use composition functions to share a component's beahviour without a template, providing a more convenient replacement of "renderless components".
+- `Upload.vue`: Demonstrates how to use composition functions to share a component's behaviour without a template, providing a more convenient and complete replacement of the "renderless components" pattern.
 
 ### The composition functions (`/composables`)
 
@@ -47,7 +47,7 @@ Provides reactive pagination state and functions to manipulate it.
 
 #### `use-array-pagination.js`
 
-Wrapping `usePagination`, it paginates an array.
+Wrapping `usePagination`, it paginates an array that you pass to it.
 
 ### Event handling
 
@@ -55,15 +55,15 @@ Wrapping `usePagination`, it paginates an array.
 
 A very basic wrapper around the pattern of adding event listeners imperatively in `mounted` and removing them in `beforeDestroy`.
 
-It'sthe basis for a couple of more advanced a examples wrapping it.
+It's the basis for a couple of more advanced a examples wrapping it.
 
 #### `use-scroll.js`
 
-ractive state tracking the window's scroll coordinates
+reactive state tracking the window's scroll position (any any other element).
 
 #### `use-end-of-page.js`
 
-Extending `use-scroll`, this composition function accepts a callback that is run when the page has been scrolled to the bottom (margin can be specified)
+Extending `use-scroll`, this composition function accepts a callback that is run when the page has been scrolled to the bottom (margin can be specified).
 
 #### `use-media.js`
 
@@ -73,7 +73,7 @@ Boolean Ref indicating wether the specified media query is fullfilled or not.
 
 #### `use-promise.js`
 
-Wraps a functionthat returns a promise. Creates reactive state tracking `loading` state, `error` and `result` of the promise returned by calling that wrapped function.
+Wraps a function that returns a promise. Creates reactive state tracking `loading` state, `error` and `result` of the promise returned by calling that wrapped function.
 
 #### `use-endpoint.js`
 
