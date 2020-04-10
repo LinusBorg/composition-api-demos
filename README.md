@@ -6,9 +6,9 @@ This repository contains a demo application meant to demonstrate various usecase
 
 It is meant as an extension of a talk about the new API which I gave at [Vuejs London 2019](https://vuejs.london) on October 4th, 2019. You can find the slides [here](https://github.com/LinusBorg/talks/tree/master/2019-10-04%20Vuejs%20London).
 
-this repo represents the current state of my endeavor at playing with this API and seeing where it takes me, what patterns I can come up with etc., and I plan on adding new examples as I come up with / across them.
+This repo represents the current state of my endeavor at playing with this API and seeing where it takes me, what patterns I can come up with etc., and I plan on adding new examples as I come up with / across them.
 
-So keep in mind, it doesn't *do* anything useful, and it's also not a pretty thing to look at in the browser - it's meant as a demo of the API, nothing more. It's also not a good idea to take any of the demos as prescriptive in terms of the patterns used there. We as a community will have to figure out what the beste patterns, the do's and don'ts will be, and I don'T claim to have found the best ones yet.
+So keep in mind, it doesn't *do* anything useful, and it's also not a pretty thing to look at in the browser - it's meant as a demo of the API, nothing more. It's also not a good idea to take any of the demos as prescriptive in terms of the patterns used there. We as a community will have to figure out what the best patterns, the do's and don'ts will be, and I don't claim to have found the best ones yet.
 
 ## The talk
 
@@ -28,7 +28,7 @@ The code for the slide examples can be found in `/slides-examples`.
 
 The `/views` folder contains route components, each containing examples for different use cases. Most of these examples make  use of a few different composition functions.
 
-- `Form.vue`: Using a compositon function to do reactive form validation
+- `Form.vue`: Using a composition function to do reactive form validation
 - `Images.vue`: Build an Infinite Scrolling image gallery out of a few different composition functions (uses jsonplaceholder.typicode.com for the API - thanks!)
 - `Posts.vue`: With a slight variation of the code used in `Images.vue`, this component paginates a pre-populated array of posts.
 - `Upload.vue`: Demonstrates how to use composition functions to share a component's behaviour without a template, providing a more convenient and complete replacement of the "renderless components" pattern.
@@ -59,7 +59,7 @@ It's the basis for a couple of more advanced a examples wrapping it.
 
 #### `use-scroll.js`
 
-reactive state tracking the window's scroll position (any any other element).
+Reactive state tracking the window's scroll position (any any other element).
 
 #### `use-end-of-page.js`
 
@@ -67,7 +67,7 @@ Extending `use-scroll`, this composition function accepts a callback that is run
 
 #### `use-media.js`
 
-Boolean Ref indicating wether the specified media query is fullfilled or not.
+Boolean Ref indicating whether the specified media query is fulfilled or not.
 
 ### Handling Promises
 
@@ -77,7 +77,7 @@ Wraps a function that returns a promise. Creates reactive state tracking `loadin
 
 #### `use-endpoint.js`
 
-**unfinished** Similar to `use-promise`. Intended as an example of how to wrap a fecth library and cancel requests when the function is called again.
+**unfinished** Similar to `use-promise`. Intended as an example of how to wrap a fetch library and cancel requests when the function is called again.
 
 Current implementation isn't doing that in the way I want it to. Not used in any example right now for this reason.
 
@@ -85,7 +85,7 @@ Current implementation isn't doing that in the way I want it to. Not used in any
 
 #### `use-validation.js`
 
-reactivr form validation, overly simplified.
+Reactive form validation, overly simplified.
 
 ### "Renderless" component - File Dropzone
 
@@ -95,13 +95,13 @@ Returns various state and functions that can be used to easily build your own ve
 
 #### `use-global-dnd.js`
 
-Allows to track files being dragged into the browser window. useful to highlight your dropzone when a file being dragged into the window so the user is guided to where the file can be dropped.
+Allows to track files being dragged into the browser window. Useful to highlight your dropzone when a file being dragged into the window so the user is guided to where the file can be dropped.
 
 ### Store
 
 > This example is found in `/src/store`
 
-Deomnstrates how to create a Vuex-like state module and share it with components in a tree through provide & inject.
+Demonstrates how to create a Vuex-like state module and share it with components in a tree through provide & inject.
 
 Still missing an example implementation
 
@@ -111,7 +111,7 @@ This App uses the `@vue/composition-api` package, which makes this new API avail
 
 ## Contributing
 
-I'd like to extend this project over time and collect more examples. I'll try and come up with a proper contibuting guide later. Until then:
+I'd like to extend this project over time and collect more examples. I'll try and come up with a proper contributing guide later. Until then:
 
 ### Examples
 
