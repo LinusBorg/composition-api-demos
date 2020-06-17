@@ -59,7 +59,7 @@ It's the basis for a couple of more advanced a examples wrapping it.
 
 #### `use-scroll.js`
 
-Reactive state tracking the window's scroll position (any any other element).
+Reactive state tracking the window's scroll position (and any other element).
 
 #### `use-end-of-page.js`
 
